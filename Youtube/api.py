@@ -5,20 +5,29 @@ import requests
 import urllib.request
 import string
 import random
+import pandas as pd
 
 
-def getHTML(channelUrl):
+def getHTML(channels):
     driver = webdriver.Chrome()
     driver.implicitly_wait(0.5)
-    driver.get(channelUrl)
+    channel_ids = []
+    for channel in channels:
+        try:
+            channelUrl = 'https://www.youtube.com/@' + channel
+            driver.get(channelUrl)
+        except:
+            continue
     # access HTML source code with page_source method
-    s = driver.page_source
-    print(s)
-    start_index = s.find('externalId')
-    print(start_index)
-    externalId =  s[start_index+13:start_index+37]
-    print(externalId)
-    return externalId
+        s = driver.page_source
+        # print(s)
+        start_index = s.find('externalId')
+        print(start_index)
+        externalId =  s[start_index+13:start_index+37]
+        print(externalId)
+        channel_ids.append(externalId)
+    return channel_ids
+    
 
 def getRandomIds(key):
     count = 50
@@ -47,16 +56,36 @@ url = "https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key={key} &fi
 channel_id = "https://www.youtube.com/@TifoIRL"
 
 # response = api.get_channel_info(channel_id=channel_id)
-channel_by_username = api.get_channel_info(for_username="MrBeast")
+
 
 # video_by_chart = api.get_videos_by_chart(chart="mostPopular", region_code="US", count=2)
 # print(video_by_chart.items)
 
-channelId = getHTML(channel_id)
+# channelId = getHTML(channel_id)
 
-channel = api.get_channel_info(channel_id=channelId)
-channel_dict = channel.items[0].to_dict()
-print(channel_dict)
+# channel = api.get_channel_info(channel_id=channelId)
+# channel_dict = channel.items[0].to_dict()
+# print(channel_dict)
+
+top_channels = pd.read_csv('Youtube/most_subscribed_youtube_channels.csv')
+print(top_channels)
+
+top_channels['Youtuber'] = top_channels['Youtuber'].str.replace(' ','')
+print(top_channels)
+
+channels = top_channels['Youtuber'].to_list()
+
+for channel in channels:
+    channel_by_username = api.get_channel_info(for_username=channel)  
+    print(channel_by_username.items) 
+
+# channel_ids = getHTML(channels)
+
+
+
+
+
+
 
 
 
