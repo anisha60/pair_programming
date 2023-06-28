@@ -1,11 +1,12 @@
 from pyyoutube import Api
 from selenium import webdriver
 import json
-import requests
+# import requests
 import urllib.request
 import string
 import random
 import pandas as pd
+import mysql.connector
 
 
 def getHTML(channels):
@@ -67,7 +68,7 @@ channel_id = "https://www.youtube.com/@TifoIRL"
 # channel_dict = channel.items[0].to_dict()
 # print(channel_dict)
 
-top_channels = pd.read_csv('Youtube/most_subscribed_youtube_channels.csv')
+top_channels = pd.read_csv('most_subscribed_youtube_channels.csv')
 print(top_channels)
 
 top_channels['Youtuber'] = top_channels['Youtuber'].str.replace(' ','')
