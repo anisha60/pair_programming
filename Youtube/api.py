@@ -1,5 +1,5 @@
 from pyyoutube import Api
-from selenium import webdriver
+# from selenium import webdriver
 import json
 import requests
 import urllib.request
@@ -9,46 +9,49 @@ import pandas as pd
 from getpass import getpass
 from mysql.connector import connect, Error
 import mysql
+# import pyodbc
+import sqlalchemy as sal
+from sqlalchemy import create_engine
 
 
-def getHTML(channels):
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(0.5)
-    channel_ids = []
-    for channel in channels:
-        try:
-            channelUrl = 'https://www.youtube.com/@' + channel
-            driver.get(channelUrl)
-        except:
-            continue
-    # access HTML source code with page_source method
-        s = driver.page_source
-        # print(s)
-        start_index = s.find('externalId')
-        print(start_index)
-        externalId =  s[start_index+13:start_index+37]
-        print(externalId)
-        channel_ids.append(externalId)
-    return channel_ids
+# def getHTML(channels):
+#     driver = webdriver.Chrome()
+#     driver.implicitly_wait(0.5)
+#     channel_ids = []
+#     for channel in channels:
+#         try:
+#             channelUrl = 'https://www.youtube.com/@' + channel
+#             driver.get(channelUrl)
+#         except:
+#             continue
+#     # access HTML source code with page_source method
+#         s = driver.page_source
+#         # print(s)
+#         start_index = s.find('externalId')
+#         print(start_index)
+#         externalId =  s[start_index+13:start_index+37]
+#         print(externalId)
+#         channel_ids.append(externalId)
+#     return channel_ids
     
 
-def getRandomIds(key):
-    count = 50
-    API_KEY = key
-    randomID = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
+# def getRandomIds(key):
+#     count = 50
+#     API_KEY = key
+#     randomID = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(3))
 
-    urlData = "https://www.googleapis.com/youtube/v3/search?key={}&maxResults={}&part=snippet&type=video&q={}".format(API_KEY,count,randomID)
-    webURL = urllib.request.urlopen(urlData)
-    data = webURL.read()
-    encoding = webURL.info().get_content_charset('utf-8')
-    results = json.loads(data.decode(encoding))
+#     urlData = "https://www.googleapis.com/youtube/v3/search?key={}&maxResults={}&part=snippet&type=video&q={}".format(API_KEY,count,randomID)
+#     webURL = urllib.request.urlopen(urlData)
+#     data = webURL.read()
+#     encoding = webURL.info().get_content_charset('utf-8')
+#     results = json.loads(data.decode(encoding))
 
-    for data in results['items']:
-        videoId = (data['id']['videoId'])
-        print(videoId)
-        #store your ids
+#     for data in results['items']:
+#         videoId = (data['id']['videoId'])
+#         print(videoId)
+#         #store your ids
     
-    return results
+#     return results
 
 
 
@@ -107,7 +110,9 @@ mydb = mysql.connector.connect(
         database='channels'
     )
 
-cursor = mydb.cursor()
+# cursor = mydb.cursor()
+
+# engine = sal.create_engine(‘mssql+pyodbc://server_name/database_name?driver=SQL Server?Trusted_Connection=yes’)
 
 # df_to_mysql('channel_info',  mydb)
 
