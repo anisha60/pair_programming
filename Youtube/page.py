@@ -11,22 +11,29 @@ def check_and_add_channel_ids(file_path):
         port='3308',
         database='channel_id'
     )
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            print("start")
+            csv_reader = csv.reader(file)
 
-    with open(file_path, 'r', encoding='utf-8') as file:
-        csv_reader = csv.reader(file)
+            for i, row in enumerate(csv_reader):
+                print("step1")
+                if i >= 50:
+                    print("step2")
+                    break  # Stop after checking the first 20 entries
 
-        for i, row in enumerate(csv_reader):
-            if i >= 20:
-                break  # Stop after checking the first 20 entries
+                channel_id = row[0]  # Assuming channel ID is in the first column
 
-            channel_id = row[0]  # Assuming channel ID is in the first column
-
-            try:
-                if is_channel_id_working(channel_id):
-                    add_channel_to_database(channel_id, mydb)
-            except Exception as e:
-                print(f"An error occurred while checking channel ID {channel_id}: {e}")
-                continue
+                try:
+                    if is_channel_id_working(channel_id):
+                        print("step3")
+                        add_channel_to_database(channel_id, mydb)
+                except Exception as e:
+                    print(f"An error occurred while checking channel ID {channel_id}: {e}")
+                    continue
+    finally:
+        print("step4")
+        print("yes")
 
 
 def is_channel_id_working(channel_id):
