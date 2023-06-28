@@ -25,7 +25,7 @@ def getHTML(channels):
             continue
         # access HTML source code with page_source method
         s = driver.page_source
-        # print(s)
+
         start_index = s.find('externalId')
         print(start_index)
         externalId = s[start_index + 13:start_index + 37]
@@ -92,9 +92,9 @@ def getRandomIds(key):
         videoId = data['id']['videoId']
         print(videoId)
 
-        # Assuming you have a function to check if the link is working, modify the condition below
+        # check if the link is working, modify the condition below
         if check_link_working(videoId):
-            # Assuming you have a function to get the channel name from the videoId
+            # function to get the channel name from the videoId
             channel_name = get_channel_name(videoId)
             insert_channel_id(videoId, channel_name)
 
