@@ -22,7 +22,7 @@ def check_and_add_channel_ids(file_path):
                     print("step2")
                     break  # Stop after checking the first 20 entries
 
-                channel_id = row[0]  # Assuming channel ID is in the first column
+                channel_id = row[1]  # Assuming channel ID is in the first column
 
                 try:
                     if is_channel_id_working(channel_id):
@@ -59,5 +59,5 @@ def add_channel_to_database(channel_id, mydb):
 
 # Usag
 api_key = 'AIzaSyDDJhSQtGyf9IAlANGFVEyPh0AnbMghym4'
-file_path = 'most_subscribed_youtube_channels.csv'
+file_path = 'output.csv'
 check_and_add_channel_ids(file_path)
