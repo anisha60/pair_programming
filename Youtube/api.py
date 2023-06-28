@@ -82,7 +82,7 @@ channel_id = "https://www.youtube.com/@TifoIRL"
 # top_channels['Youtuber'] = top_channels['Youtuber'].str.replace(' ','')
 # print(top_channels)
 
-channel_ids_df = pd.read_csv('Youtube/output.csv')
+channel_ids_df = pd.read_csv('Youtube/output.csv' or 'output.csv')
 print(channel_ids_df)
 
 print(channel_ids_df.columns)
