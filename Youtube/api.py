@@ -12,6 +12,8 @@ import mysql
 # import pyodbc
 import sqlalchemy as sal
 from sqlalchemy import create_engine
+from pandas.io import sql
+import pymysql
 
 
 # def getHTML(channels):
@@ -102,13 +104,41 @@ print(channel_ids_df)
 # except Error as e:
 #     print(e)
 
-mydb = mysql.connector.connect(
-        host='localhost',
-        user='sqluser',
-        password='password',
-        port = '3306',
-        database='channels'
-    )
+# mydb = mysql.connector.connect(
+#         host='localhost',
+#         user='sqluser',
+#         password='password',
+#         port = '3306',
+#         database='channels'
+#     )
+
+host='localhost'
+user='sqluser'
+password='password'
+port = 3306
+database='channels'
+
+# conn = pymysql.connect(host='',
+#                        port=port,
+#                        user=user, 
+#                        passwd=password,  
+#                        db=database,
+#                        charset='utf8')
+
+engine = create_engine('mysql+pymysql://sqluser:password@localhost/channels')
+channel_ids_df.to_sql('channel_data', engine, if_exists='replace', index = False)
+
+
+
+
+# cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+# cursor = cnxn.cursor()
+
+# for index, row in channel_ids_df.iterrows():
+#      cursor.execute("INSERT INTO channels.channeldata (Name,ChannelID,URL) values(?,?,?)", row.Name, row.ChannelID, row.URL)
+
+# cnxn.commit()
+# cursor.close()
 
 # cursor = mydb.cursor()
 
@@ -117,7 +147,9 @@ mydb = mysql.connector.connect(
 # df_to_mysql('channel_info',  mydb)
 
 
-channel_ids_df.to_sql('channel_info', mydb, if_exists='replace', index = False)
+
+# sql.to_sql(channel_ids_df, con=mydb, name='channel_data', 
+#                 if_exists='replace', flavor='mysql')
 
 # def df_to_mysql(df, db_tbl_name, conn, index=False):
 #     df.to_sql(con = conn, name = db_tbl_name, if_exists='replace', index = False)
