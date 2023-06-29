@@ -83,12 +83,12 @@ channel_id = "https://www.youtube.com/@TifoIRL"
 # print(top_channels)
 
 channel_ids_df = pd.read_csv('Youtube/output.csv' or 'output.csv')
-print(channel_ids_df)
+# print(channel_ids_df)
 
-print(channel_ids_df.columns)
+# print(channel_ids_df.columns)
 channel_ids_df['URL'] = channel_ids_df['ID'].apply(lambda x: 'youtube.com/channel/' + x)
 channel_ids_df.rename(columns = {'ID':'ChannelID'}, inplace = True)
-print(channel_ids_df)
+# print(channel_ids_df)
 
 # try:
 #     with connect(
